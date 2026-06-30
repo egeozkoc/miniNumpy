@@ -90,6 +90,24 @@ def test_array2d_index_error():
     except IndexError:
         pass
 
+def test_array2d_row_col():
+    a = mnp.reshape(mnp.arange(0, 6), 2, 3)
+
+    r0 = a.row(0)
+    assert str(r0) == "[0,1,2]"
+
+    r1 = a.row(1)
+    assert str(r1) == "[3,4,5]"
+
+    c0 = a.col(0)
+    assert str(c0) == "[0,3]"
+
+    c1 = a.col(1)
+    assert str(c1) == "[1,4]"
+
+    c2 = a.col(2)
+    assert str(c2) == "[2,5]"
+
 
 if __name__ == "__main__":
     test_array1d_basic()
@@ -100,5 +118,6 @@ if __name__ == "__main__":
     test_array2d_reductions()
     test_array2d_transpose_flatten()
     test_array2d_index_error()
+    test_array2d_row_col()
 
     print("All Python binding tests passed!")

@@ -316,6 +316,34 @@ namespace mnp {
                 return result;
             }
 
+            Array1D row(std::size_t row_index) const {
+                if (row_index >= rows_) {
+                    throw std::out_of_range("Array2D row index out of range");
+                }
+
+                Array1D result(cols_);
+
+                for (std::size_t j=0; j < cols_; ++j) {
+                    result[j] = (*this)(row_index, j);
+                }
+
+                return result;
+            }
+
+            Array1D col(std::size_t col_index) const {
+                if (col_index >= cols_) {
+                    throw std::out_of_range("Array2D col index out of range");
+                }
+
+                Array1D result(rows_);
+
+                for (std::size_t i=0; i < rows_; ++i) {
+                    result[i] = (*this)(i, col_index);
+                }
+
+                return result;
+            }
+
             
     };
 

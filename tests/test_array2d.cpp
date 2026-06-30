@@ -556,6 +556,65 @@ void test_matmul_shape_mismatch() {
     assert(caught_exception);
 }
 
+void test_row_col() {
+    mnp::Array2D a = {
+        {1.0, 2.0, 3.0},
+        {4.0, 5.0, 6.0}
+    };
+
+    mnp::Array1D r0 = a.row(0);
+    assert(r0.size() == 3);
+    assert(almost_equal(r0[0], 1.0));
+    assert(almost_equal(r0[1], 2.0));
+    assert(almost_equal(r0[2], 3.0));
+
+    mnp::Array1D r1 = a.row(1);
+    assert(r1.size() == 3);
+    assert(almost_equal(r1[0], 4.0));
+    assert(almost_equal(r1[1], 5.0));
+    assert(almost_equal(r1[2], 6.0));
+
+    mnp::Array1D c0 = a.col(0);
+    assert(c0.size() == 2);
+    assert(almost_equal(c0[0], 1.0));
+    assert(almost_equal(c0[1], 4.0));
+
+    mnp::Array1D c1 = a.col(1);
+    assert(c1.size() == 2);
+    assert(almost_equal(c1[0], 2.0));
+    assert(almost_equal(c1[1], 5.0));
+
+    mnp::Array1D c2 = a.col(2);
+    assert(c2.size() == 2);
+    assert(almost_equal(c2[0], 3.0));
+    assert(almost_equal(c2[1], 6.0));
+}
+
+void test_row_col_out_of_range() {
+    mnp::Array2D a = {
+        {1.0, 2.0, 3.0},
+        {4.0, 5.0, 6.0}
+    };
+
+    bool caught_row = false;
+    bool caught_col = false;
+
+    try {
+        a.row(10);
+    } catch (const std::out_of_range& error) {
+        caught_row = true;
+    }
+
+    try {
+        a.col(10);
+    } catch (const std::out_of_range& error) {
+        caught_col = true;
+    }
+
+    assert(caught_row);
+    assert(caught_col);
+}
+
 int main() {
     test_construction();
     test_indexing();
@@ -579,6 +638,8 @@ int main() {
     test_reshape_size_mismatch();
     test_matmul();
     test_matmul_shape_mismatch();
+    test_row_col();
+    test_row_col_out_of_range();
 
     std::cout << "All Array2D tests passed!" << std::endl;
 

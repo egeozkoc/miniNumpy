@@ -101,6 +101,8 @@ PYBIND11_MODULE(miniNumpy, m) {
         .def("min", &mnp::Array2D::min)
         .def("max", &mnp::Array2D::max)
         .def("transpose", &mnp::Array2D::transpose)
+        .def("row", &mnp::Array2D::row)
+        .def("col", &mnp::Array2D::col)
         .def("flatten", &mnp::Array2D::flatten)
         .def("__repr__", [](const mnp::Array2D& arr) {
             std::ostringstream oss;
