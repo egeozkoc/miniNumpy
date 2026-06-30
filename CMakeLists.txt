@@ -35,11 +35,7 @@ add_executable(test_array2d
 
 target_link_libraries(test_array2d PRIVATE miniNumpy)
 
-enable_testing()
-
-add_test(NAME test_array1d COMMAND test_array1d)
-add_test(NAME test_array2d COMMAND test_array2d)
-
+find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
 find_package(pybind11 CONFIG REQUIRED)
 
 pybind11_add_module(miniNumpy_python
@@ -50,4 +46,17 @@ target_link_libraries(miniNumpy_python PRIVATE miniNumpy)
 
 set_target_properties(miniNumpy_python PROPERTIES
     OUTPUT_NAME "miniNumpy"
+)
+
+enable_testing()
+
+add_test(NAME test_array1d COMMAND test_array1d)
+add_test(NAME test_array2d COMMAND test_array2d)
+
+add_test(
+    NAME test_python_bindings
+    COMMAND ${CMAKE_COMMAND} -E env
+            PYTHONPATH=$<TARGET_FILE_DIR:miniNumpy_python>
+            ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_python_bindings.py
 )
